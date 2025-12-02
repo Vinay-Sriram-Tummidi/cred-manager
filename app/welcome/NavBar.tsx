@@ -1,24 +1,25 @@
 import { Link } from "react-router";
 import { Menu } from "lucide-react";
 import { Button } from "../components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "../components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "../components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { useContext } from "react";
-import { GlobalContext } from "~/GlobalContext/GlobalContext";
+import { GlobalContext } from "~/common/GlobalContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
+} from "../components/ui/dropdown-menu";
 
 export function Navbar() {
+  const ctx = useContext(GlobalContext);
+  if (!ctx) return null;
 
-  const ctx=useContext(GlobalContext);
-  if(!ctx) return null;
-
-  const {state,dispatch}=ctx;
-
-  console.log("State",state);
-  console.log("Dispatch",dispatch);
+  const { state, dispatch } = ctx;
   return (
     <header className="w-full bg-white border-b fixed">
       <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
@@ -29,44 +30,63 @@ export function Navbar() {
 
         {/* Desktop Menu */}
         <nav className="hidden md:flex items-center gap-6">
-          <Link to="/gold" className="text-sm hover:text-black">
-            Gold and Silver
-          </Link>
-          <Link to="/secured" className="text-sm hover:text-black">
-            Secured Credit Card
-          </Link>
-          <Link to="/bonds" className="text-sm hover:text-black">
-            Bonds
-          </Link>
-          {}
-             {state.user ? (
-          <>
-           <div className="flex items-center gap-2">
-  <span>Hello, <strong>{state.user}</strong></span>
-  <Avatar className="rounded-lg">
-    <AvatarImage
-      src="https://github.com/evilrabbit.png"
-      alt="@evilrabbit"
-    />
-    <AvatarFallback>VS</AvatarFallback>
-  </Avatar>
-</div>
-            <Button
-              onClick={() => dispatch({ type: "LOGOUT" })}
-              className="text-white px-3 py-1 rounded"
-            >
-              Logout
-            </Button>
-          </>
-        ) : (
-          <Button
-            onClick={() => dispatch({ type: "SET_USER", payload: "Vinay" })}
-            className=" text-white px-3 py-1 rounded"
+          <a
+            href="https://www.etmoney.com/mutual-funds/explore"
+            target="_blank"
+            className="text-sm hover:text-black"
           >
-            Login
-          </Button>
+            Explore
+          </a>
+          {state.user ? (
+            <>
+              <Link to="/gold" className="text-sm hover:text-black">
+                Gold and Silver
+              </Link>
+              <Link to="/secured" className="text-sm hover:text-black">
+                Secured Credit Card
+              </Link>
+              <Link to="/bonds" className="text-sm hover:text-black"></Link>
+              <div className="flex items-center gap-2">
+                <DropdownMenu>
+                  <span>
+                    Hello, <strong>{state.user}</strong>
+                  </span>
+                  <DropdownMenuTrigger asChild>
+                    <Avatar className="rounded-lg">
+                      <AvatarImage
+                        src="https://github.com/evilrabbit.png"
+                        alt="@evilrabbit"
+                      />
+                      <AvatarFallback>VS</AvatarFallback>
+                    </Avatar>
+                  </DropdownMenuTrigger>
 
-        )}
+                  <DropdownMenuContent className="w-56" align="start">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem>
+                        <Link to="/dashboard">Dashboard</Link>
+                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <Button
+                onClick={() => dispatch({ type: "LOGOUT" })}
+                className="text-white px-3 py-1 rounded"
+              >
+                Logout
+              </Button>
+            </>
+          ) : (
+            <Button
+              onClick={() => dispatch({ type: "SET_USER", payload: "Vinay" })}
+              className=" text-white px-3 py-1 rounded"
+            >
+              Login
+            </Button>
+          )}
         </nav>
 
         {/* Mobile Menu */}

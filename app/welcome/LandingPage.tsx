@@ -2,8 +2,10 @@ import { motion } from "framer-motion";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import { ArrowRight, Shield, CreditCard, Cloud } from "lucide-react";
+import { useNavigate } from "react-router";
 
 export default function LandingPage() {
+  const navigate = useNavigate();
   return (
     <main className="flex items-center justify-center pt-32 pb-4">
       <div className="flex-1 flex flex-col items-center gap-16 min-h-0 px-6 max-w-5xl">
@@ -18,11 +20,16 @@ export default function LandingPage() {
             SmartCloud Banking Platform
           </h1>
           <p className="text-lg text-gray-600 max-w-xl">
-            A modern cloud‑native banking dashboard to manage customers, transactions,
-            and credit limits — built with React, Remix, and DevOps best practices.
+            A modern cloud‑native banking dashboard to manage customers,
+            transactions, and credit limits — built with React, Remix, and
+            DevOps best practices.
           </p>
 
-          <Button size="lg" className="rounded-2xl shadow-md">
+          <Button
+            size="lg"
+            className="rounded-2xl shadow-md"
+            onClick={() => navigate("/dashboard")}
+          >
             Get Started <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </motion.div>
@@ -34,8 +41,8 @@ export default function LandingPage() {
               <Cloud className="h-10 w-10" />
               <h3 className="font-semibold text-xl">Cloud Native</h3>
               <p className="text-gray-600 text-sm">
-                Built with scalable cloud and DevOps principles including CI/CD and
-                infrastructure automation.
+                Built with scalable cloud and DevOps principles including CI/CD
+                and infrastructure automation.
               </p>
             </CardContent>
           </Card>
@@ -45,7 +52,8 @@ export default function LandingPage() {
               <Shield className="h-10 w-10" />
               <h3 className="font-semibold text-xl">Secure Transactions</h3>
               <p className="text-gray-600 text-sm">
-                Implements modern authentication and secure credit‑limit workflows.
+                Implements modern authentication and secure credit‑limit
+                workflows.
               </p>
             </CardContent>
           </Card>

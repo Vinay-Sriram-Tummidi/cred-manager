@@ -1,4 +1,4 @@
-import React, { createContext, useReducer,type ReactNode } from "react";
+import React, { createContext, useReducer, type ReactNode } from "react";
 
 ///////Type and Interfaces////////////
 export interface Account {
@@ -35,14 +35,14 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         accounts: state.accounts.map((acc) =>
-          acc.id === action.payload ? { ...acc, isActive: true } : acc
+          acc.id === action.payload ? { ...acc, isActive: true } : acc,
         ),
       };
     case "DEACTIVATE_ACCOUNT":
       return {
         ...state,
         accounts: state.accounts.map((acc) =>
-          acc.id === action.payload ? { ...acc, isActive: false } : acc
+          acc.id === action.payload ? { ...acc, isActive: false } : acc,
         ),
       };
     case "SET_USER":
@@ -55,17 +55,16 @@ function reducer(state: State, action: Action): State {
 }
 
 //creating a context
-export const GlobalContext = createContext<{state: State;
+export const GlobalContext = createContext<{
+  state: State;
   dispatch: React.Dispatch<Action>;
 } | null>(null);
-
 
 //provider
 export function GlobalProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
-
     <GlobalContext.Provider value={{ state, dispatch }}>
       {children}
     </GlobalContext.Provider>
