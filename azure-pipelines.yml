@@ -1,0 +1,23 @@
+trigger:
+- main   # or your branch name
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: "Use Node 18"
+
+- script: |
+    npm install
+    npm run build
+  displayName: "Install dependencies and build Vite app"
+
+- task: AzureStaticWebApp@0
+  inputs:
+    app_location: '/'
+    output_location: 'dist'
+    azure_static_web_apps_api_token: '$(deployment_token)'
+  displayName: "Deploy to Azure Static Web App"
