@@ -1,23 +1,54 @@
 trigger:
-- master   # or main — use the branch you actually push to
+  branches:
+    include:
+      - master   # Change to your branch
 
 pool:
-  vmImage: ubuntu-latest   # Microsoft-hosted agent
+  vmImage: 'ubuntu-latest'
+
+variables:
+  node_version: '22.x'
+  build_folder: 'build'
 
 steps:
+# 1️⃣ Checkout code
+- task: Checkout@1
+
+# 2️⃣ Use Node 22
 - task: NodeTool@0
   inputs:
-    versionSpec: '22.x'    # Node 22 (works with Vite + React Router)
-  displayName: "Use Node 22"
+    versionSpec: '$(node_version)'
+  displayName: 'Use Node $(node_version)'
 
+# 3️⃣ Install dependencies
 - script: |
     npm install
-    npm run build
-  displayName: "Install dependencies and build Vite app"
+  displayName: 'Install dependencies'
 
-- task: AzureStaticWebApp@0
+# 4️⃣ Build React Router SSR
+- script: |
+    npm run build
+  displayName: 'Build SSR app'
+
+# 5️⃣ Archive files for deployment
+- task: ArchiveFiles@2
   inputs:
-    app_location: "/"
-    output_location: "dist"
-    azure_static_web_apps_api_token: "$(deployment_token)"
-  displayName: "Deploy to Azure Static Web App"
+    rootFolderOrFile: '$(Build.SourcesDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/app.zip'
+    replaceExistingArchive: true
+  displayName: 'Zip source for deployment'
+
+# 6️⃣ Publish artifact (optional, useful for debugging)
+- publish: $(Build.ArtifactStagingDirectory)/app.zip
+  artifact: drop
+
+# 7️⃣ Deploy to Azure App Service
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Vinay-Azure-Connection'
+    appType: 'webApp'  # or 'webApp' for Windows
+    appName: 'credManager'
+    package: '$(Build.ArtifactStagingDirectory)/app.zip'
+    startupCommand: 'npm install --production=false && npm run build && npm start'
