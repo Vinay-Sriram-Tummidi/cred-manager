@@ -51,4 +51,4 @@ steps:
     appType: 'webApp'  # or 'webApp' for Windows
     appName: 'credManager'
     package: '$(Build.ArtifactStagingDirectory)/app.zip'
-    startupCommand: 'npm install --production=false && npm run build && npm start'
+    startupCommand: 'npm start'
