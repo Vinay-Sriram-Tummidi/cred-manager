@@ -1,14 +1,14 @@
 trigger:
-- master   # or your branch name
+- master   # or main — use the branch you actually push to
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: ubuntu-latest   # Microsoft-hosted agent
 
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '20.x'
-  displayName: "Use Node 20"
+    versionSpec: '22.x'    # Node 22 (works with Vite + React Router)
+  displayName: "Use Node 22"
 
 - script: |
     npm install
@@ -17,7 +17,7 @@ steps:
 
 - task: AzureStaticWebApp@0
   inputs:
-    app_location: '/'
-    output_location: 'dist'
-    azure_static_web_apps_api_token: '$(deployment_token)'
+    app_location: "/"
+    output_location: "dist"
+    azure_static_web_apps_api_token: "$(deployment_token)"
   displayName: "Deploy to Azure Static Web App"
