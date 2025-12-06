@@ -1,20 +1,23 @@
 trigger:
   branches:
     include:
-      - master   # Change to your branch
+      - master   # your branch
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-latest'   # Microsoft-hosted agent
 
 variables:
-  node_version: '22.x'
-  build_folder: 'build'
+  node_version: '22.x'                 # Node version
+  build_folder: 'build'                # Build output folder
+  azure_service_connection: 'Vinay-Azure-Connection'  # Azure service connection name
+  app_service_name: 'credManager'      # Azure App Service name
+  startup_command: 'npm start'         # Startup command for App Service
 
 steps:
 # 1️⃣ Checkout code
 - task: Checkout@1
 
-# 2️⃣ Use Node 22
+# 2️⃣ Install Node
 - task: NodeTool@0
   inputs:
     versionSpec: '$(node_version)'
@@ -25,30 +28,30 @@ steps:
     npm install
   displayName: 'Install dependencies'
 
-# 4️⃣ Build React Router SSR
+# 4️⃣ Build Vite + React Router SSR
 - script: |
     npm run build
   displayName: 'Build SSR app'
 
-# 5️⃣ Archive files for deployment
+# 5️⃣ Zip build folder
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.SourcesDirectory)'
+    rootFolderOrFile: '$(Build.SourcesDirectory)/$(build_folder)'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/app.zip'
     replaceExistingArchive: true
-  displayName: 'Zip source for deployment'
+  displayName: 'Archive build folder'
 
-# 6️⃣ Publish artifact (optional, useful for debugging)
+# 6️⃣ Publish artifact (optional)
 - publish: $(Build.ArtifactStagingDirectory)/app.zip
   artifact: drop
 
 # 7️⃣ Deploy to Azure App Service
 - task: AzureWebApp@1
   inputs:
-    azureSubscription: 'Vinay-Azure-Connection'
-    appType: 'webApp'  # or 'webApp' for Windows
-    appName: 'credManager'
+    azureSubscription: '$(azure_service_connection)'
+    appType: 'webApp'       
+    appName: '$(app_service_name)'
     package: '$(Build.ArtifactStagingDirectory)/app.zip'
-    startupCommand: 'npm start'
+    startupCommand: '$(startup_command)'
