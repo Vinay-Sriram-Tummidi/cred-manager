@@ -25,7 +25,7 @@ export function Navbar() {
       <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
         {/* Logo */}
         <Link to="/" className="font-bold text-xl">
-          SmartCloud
+          CredCloud
         </Link>
 
         {/* Desktop Menu */}
