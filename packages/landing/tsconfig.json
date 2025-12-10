@@ -8,7 +8,13 @@
     "declarationMap": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "@credit-manager/core": ["../core/src"],
+      "@credit-manager/core/*": ["../core/src/*"],
+      "@credit-manager/ui": ["../ui/src"],
+      "@credit-manager/ui/*": ["../ui/src/*"]
+    },
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

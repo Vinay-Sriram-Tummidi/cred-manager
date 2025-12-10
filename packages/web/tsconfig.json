@@ -16,10 +16,14 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
-      "@credit-manager/core": ["../core/src/index.ts"],
-      "@credit-manager/ui": ["../ui/src/index.ts"],
-      "@credit-manager/dashboard": ["../dashboard/src/index.ts"],
-      "@credit-manager/landing": ["../landing/src/index.ts"]
+      "@credit-manager/core": ["../core/src"],
+      "@credit-manager/core/*": ["../core/src/*"],
+      "@credit-manager/ui": ["../ui/src"],
+      "@credit-manager/ui/*": ["../ui/src/*"],
+      "@credit-manager/dashboard": ["../dashboard/src"],
+      "@credit-manager/dashboard/*": ["../dashboard/src/*"],
+      "@credit-manager/landing": ["../landing/src"],
+      "@credit-manager/landing/*": ["../landing/src/*"]
     },
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,

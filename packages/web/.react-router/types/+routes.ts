@@ -17,12 +17,17 @@ type Pages = {
   "/dashboard": {
     params: {};
   };
+  "/*": {
+    params: {
+      "*": string;
+    };
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/dashboard";
+    page: "/" | "/dashboard" | "/*";
   };
   "routes/home.tsx": {
     id: "routes/home";
@@ -32,10 +37,15 @@ type RouteFiles = {
     id: "routes/dashboard";
     page: "/dashboard";
   };
+  "routes/404.tsx": {
+    id: "routes/404";
+    page: "/*";
+  };
 };
 
 type RouteModules = {
   "root": typeof import("./app/root.tsx");
   "routes/home": typeof import("./app/routes/home.tsx");
   "routes/dashboard": typeof import("./app/routes/dashboard.tsx");
+  "routes/404": typeof import("./app/routes/404.tsx");
 };
