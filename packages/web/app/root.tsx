@@ -3,10 +3,13 @@ import {
   Links,
   Meta,
   Outlet,
+  Scripts,
   ScrollRestoration,
 } from "react-router";
 
 import "./app.css";
+import { Navbar } from "@credit-manager/landing/NavBar";
+import { GlobalProvider } from "@credit-manager/core";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -18,8 +21,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
-        <ScrollRestoration />
+        <GlobalProvider>
+          <Navbar />
+          {children}
+          <ScrollRestoration />
+          <Scripts />
+        </GlobalProvider>
       </body>
     </html>
   );
