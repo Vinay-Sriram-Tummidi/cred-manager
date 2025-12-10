@@ -1,0 +1,9 @@
+packages:
+  - 'packages/core'
+  - 'packages/ui'
+  - 'packages/dashboard'
+  - 'packages/landing'
+  - 'packages/web'
+
+shared-workspace-lockfile: true
+strict-peer-dependencies: false
