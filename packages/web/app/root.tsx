@@ -7,7 +7,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 import type { Route } from "./+types/root";
-
+import  {NavBar}  from "@credit-manager/dashboard";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -36,6 +36,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+          <NavBar/>
           {children}
           <ScrollRestoration />
           <Scripts />
